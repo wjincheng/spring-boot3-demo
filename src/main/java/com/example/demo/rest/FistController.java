@@ -3,7 +3,7 @@ package com.example.demo.rest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.User;
+import com.example.demo.service.FirstService;
 
 import lombok.AllArgsConstructor;
 
@@ -11,13 +11,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FistController {
 
-    private final User user;
+    private final FirstService firstService;
 
     @GetMapping("/hello")
     public String hello() {
-        return user.getName();
+        return firstService.getUserName();
     }
-
-
 
 }
