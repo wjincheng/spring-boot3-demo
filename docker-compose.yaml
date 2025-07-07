@@ -1,0 +1,38 @@
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      # IMPORTANT: Change this password to a secure one.
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: demo_api
+    ports:
+      # Maps the host port 3306 to the container port 3306.
+      # Format: "HOST_PORT:CONTAINER_PORT"
+      - "3306:3306"
+    volumes:
+      # Persists MySQL data on the host machine.
+      # This ensures your data is not lost when the container stops or is removed.
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+
+  # Redis In-Memory Data Store Service
+  redis:
+    image: redis:latest
+    container_name: redis_cache
+    restart: always
+    ports:
+      # Maps the host port 6379 to the container port 6379.
+      - "6379:6379"
+    networks:
+      - app-network
+    command: redis-server --requirepass "" --databases 1
+
+# Defines the network that the services will use to communicate with each other.
+networks:
+  app-network:
+    driver: bridge
